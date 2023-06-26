@@ -71,6 +71,7 @@ export default function DenseTable(){
 
     const [curWeek, setcurWeek] = useState(null);
     const [prevWeek, setprevWeek] = useState(null)
+    
     const [id, setId] = useState(uid)//3
     const[habitValue, setnewHabitValue] = useState(null)
     const [typeValue, setnewTypeValue] = useState(null)
