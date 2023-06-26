@@ -2,9 +2,20 @@
   "short_name": "Time Bandit",
   "version":"1.0",
   "manifest_version": 3,
+  "permissions": [
+    "https://apis.google.com/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' https://apis.google.com; object-src 'self';"
+  },
   "name": "Time Bandit Habit Tracker",
-  "chrome_url_overrides": {
-    "newtab": "index.html"
-  }
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Open the popup",
+    "default_icon": "Character_Cover1.c338082bda650a36449b6cd3de02938c.png"
+    
+}
+
+
 }
 

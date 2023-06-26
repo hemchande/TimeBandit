@@ -17,7 +17,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
        <AuthContextProvider>
-     <Router>
+      {/* <Router>
 
 <Routes>
     <Route path = '/home' element = {<DenseTable/>}/>
@@ -27,7 +27,11 @@ root.render(
 
 
 </Routes>
-</Router>
+</Router>  */}
+
+<DenseTable/>
+
+
 </AuthContextProvider>
   </React.StrictMode>
 );

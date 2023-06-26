@@ -4,6 +4,7 @@ import {useAuth} from '../components/firebase/AuthContext'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
 
+import GooglePage from './google';
 import Character_Cover1 from '../components/Character_Cover1.png'
 import {
     TextField,
@@ -70,7 +71,7 @@ export default function DenseTable(){
 
     const [curWeek, setcurWeek] = useState(null);
     const [prevWeek, setprevWeek] = useState(null)
-    const [id, setId] = useState(8)//3
+    const [id, setId] = useState(uid)//3
     const[habitValue, setnewHabitValue] = useState(null)
     const [typeValue, setnewTypeValue] = useState(null)
     //setting habits in use effect 
@@ -249,6 +250,9 @@ export default function DenseTable(){
         const weekContents1 = JSON.parse(localStorage.getItem("" + id.toString() + "" + prevWeek.toDateString()))
 
 
+        console.log(weekContents1)
+
+
         //console.log(weekContents)
 
 
@@ -263,7 +267,11 @@ export default function DenseTable(){
         } 
         if(!weekContents && weekContents1){
 
+          
+
           let prevkeys = Object.keys(weekContents1)
+
+
 
           let prevValues = Object.values(weekContents1)
 
@@ -401,7 +409,7 @@ export default function DenseTable(){
         const weekContents1 = JSON.parse(localStorage.getItem("" + id.toString() + "" + prevWeek.toDateString()))
 
 
-        console.log(weekContents1)
+        //console.log(weekContents1)
 
 
         if(!weekContents && !weekContents1){
@@ -538,7 +546,9 @@ export default function DenseTable(){
 
       }
 
-      if(habits == null && habitData == null){
+      if(habits == null && habitData == null && id!= null){
+
+        console.log(uid)
 
         get_habits();
 
@@ -780,126 +790,119 @@ export default function DenseTable(){
 
 
 
-
-  return (
-
-
-    <>
-    <img src={Character_Cover1} alt="My Image" style={{ position: 'absolute',width: '90px', top: 0, left: 0 }} /> {/* Include the image here */}
-    <a href="https://www.coteriesolutions.com/time-bandit">
-      <button style={buttonStyle}>Visit Coterie</button>
-    </a>
-
-    <h1> Time Bandit Habits </h1>
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Habit</TableCell>
-            <TableCell align="right">Role</TableCell>
-            <TableCell align="right">Monday</TableCell>
-            <TableCell align="right">Tuesday</TableCell>
-            <TableCell align="right">Wednesday</TableCell>
-            <TableCell align="right">Thursday</TableCell>
-            <TableCell align="right">Friday</TableCell>
-            <TableCell align="right">Saturday</TableCell>
-            <TableCell align="right">Sunday</TableCell>
-            <TableCell align="right">Date</TableCell>
-           
-            <TableCell align="right"></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          { habits && habitData && habitData.length > 0 && habitData.map((habit, index) => (
-           
-            <TableRow
-              key={habits[index]}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {habits[index]}
-              </TableCell>
-              <TableCell align="right">
-                {habit.type}</TableCell>
-              <TableCell align="right"><input type="checkbox"  id = "monday" checked={habit.monday} onChange={(e) => handleInputChange1(e, habits[index],index)}  />
-  </TableCell>
-              <TableCell align="right"><input type="checkbox"  id = "tuesday" checked={habit.tuesday} onChange={(e) => handleInputChange1(e, habits[index],index)}/></TableCell>
-              <TableCell align="right"><input type="checkbox"  id = "wednesday" checked={habit.wednesday} onChange={(e) => handleInputChange1(e, habits[index],index)}/></TableCell>
-              <TableCell align="right"><input type="checkbox"  id = "thursday" checked={habit.thursday} onChange={(e) => handleInputChange1(e, habits[index],index)}/></TableCell>
-              <TableCell align="right"><input type="checkbox"  id = "friday" checked={habit.friday} onChange={(e) => handleInputChange1(e, habits[index],index)}/></TableCell>
-              <TableCell align="right"><input type="checkbox"  id = "saturday" checked={habit.saturday} onChange={(e) => handleInputChange1(e, habits[index],index)}/></TableCell>
-              <TableCell align="right"><input type="checkbox"  id = "saturday" checked={habit.sunday} onChange={(e) => handleInputChange1(e, habits[index],index)}/></TableCell>
-              <TableCell align="right"> {habit.date}</TableCell>
-              
-              <TableCell align="right">
-    <button className="delete-button" onClick = {handledelete} id = {habits[index]}>x</button>
-  </TableCell>
-             
-            </TableRow>
-            
-           
-          
-          ))}
-           <TableRow>
-            <TableCell>
-            <div style={{ display: 'flex' }}>
-              <TextField
-                name="habit"
-                value={habitValue}
-                onChange={(event) =>
-                  setnewHabitValue(event.target.value)}
-                multiline
-          rows={4}
-          style={{ flex: 3,
-            width: '200px', 
-            fontFamily: 'Comic Sans MS',
-            backgroundColor: 'white', // Set a background color
-            borderRadius: '4px', // Add some border radius
-            padding: '8px' }}
-              />
-               </div>
-            </TableCell>
-            <TableCell>
-              
-        <Select
-          name="type"
-          onChange={(event) =>
-            setnewTypeValue(event.target.value)}
-        >
-          <MenuItem value="">--Select a type--</MenuItem>
-          <MenuItem value="work">Work</MenuItem>
-          <MenuItem value="personal">Personal</MenuItem>
-          <MenuItem value="hobby">Hobby</MenuItem>
-        </Select>
+    return (
+      <>
+        {!id && (
+          <GooglePage />
+        )}
         
-      </TableCell>
-            
-
-
-
-
-
-
-
-
-
-           
-            <TableCell>
-            <Tooltip title="Add a new habit" arrow>
-              <Button variant="contained" onClick={handleAddHabit} className="custom-button" style={buttonStyle1}>
-                Add
-              </Button>
-             </Tooltip>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
-
-    </>
-   
-  )
-}
-
-
+        {id && (
+          <>
+            <img src={Character_Cover1} alt="My Image" style={{ position: 'absolute', width: '90px', top: 0, left: 0 }} />
+            <a href="https://www.coteriesolutions.com/time-bandit">
+              <button style={buttonStyle}>Visit Coterie</button>
+            </a>
+            <h1> Time Bandit- Habits </h1>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Habit</TableCell>
+                    <TableCell align="right">Role</TableCell>
+                    <TableCell align="right">Monday</TableCell>
+                    <TableCell align="right">Tuesday</TableCell>
+                    <TableCell align="right">Wednesday</TableCell>
+                    <TableCell align="right">Thursday</TableCell>
+                    <TableCell align="right">Friday</TableCell>
+                    <TableCell align="right">Saturday</TableCell>
+                    <TableCell align="right">Sunday</TableCell>
+                    <TableCell align="right">Date</TableCell>
+                    <TableCell align="right"></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {habits && habitData && habitData.length > 0 && habitData.map((habit, index) => (
+                    <TableRow key={habits[index]} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                      <TableCell component="th" scope="row">
+                        {habits[index]}
+                      </TableCell>
+                      <TableCell align="right">
+                        {habit.type}
+                      </TableCell>
+                      <TableCell align="right">
+                        <input type="checkbox" id="monday" checked={habit.monday} onChange={(e) => handleInputChange1(e, habits[index], index)} />
+                      </TableCell>
+                      <TableCell align="right">
+                        <input type="checkbox" id="tuesday" checked={habit.tuesday} onChange={(e) => handleInputChange1(e, habits[index], index)} />
+                      </TableCell>
+                      <TableCell align="right">
+                        <input type="checkbox" id="wednesday" checked={habit.wednesday} onChange={(e) => handleInputChange1(e, habits[index], index)} />
+                      </TableCell>
+                      <TableCell align="right">
+                        <input type="checkbox" id="thursday" checked={habit.thursday} onChange={(e) => handleInputChange1(e, habits[index], index)} />
+                      </TableCell>
+                      <TableCell align="right">
+                        <input type="checkbox" id="friday" checked={habit.friday} onChange={(e) => handleInputChange1(e, habits[index], index)} />
+                      </TableCell>
+                      <TableCell align="right">
+                        <input type="checkbox" id="saturday" checked={habit.saturday} onChange={(e) => handleInputChange1(e, habits[index], index)} />
+                      </TableCell>
+                      <TableCell align="right">
+                        <input type="checkbox" id="saturday" checked={habit.sunday} onChange={(e) => handleInputChange1(e, habits[index], index)} />
+                      </TableCell>
+                      <TableCell align="right">
+                        {habit.date}
+                      </TableCell>
+                      <TableCell align="right">
+                        <button className="delete-button" onClick={handledelete} id={habits[index]}>x</button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  <TableRow>
+                    <TableCell>
+                      <div style={{ display: 'flex' }}>
+                        <TextField
+                          name="habit"
+                          value={habitValue}
+                          onChange={(event) => setnewHabitValue(event.target.value)}
+                          multiline
+                          rows={4}
+                          style={{
+                            flex: 3,
+                            width: '200px',
+                            fontFamily: 'Comic Sans MS',
+                            backgroundColor: 'white',
+                            borderRadius: '4px',
+                            padding: '8px'
+                          }}
+                        />
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Select
+                        name="type"
+                        onChange={(event) => setnewTypeValue(event.target.value)}
+                      >
+                        <MenuItem value="">--Select a type--</MenuItem>
+                        <MenuItem value="work">Work</MenuItem>
+                        <MenuItem value="personal">Personal</MenuItem>
+                        <MenuItem value="hobby">Hobby</MenuItem>
+                      </Select>
+                    </TableCell>
+                    <TableCell>
+                      <Tooltip title="Add a new habit" arrow>
+                        <Button variant="contained" onClick={handleAddHabit} className="custom-button" style={buttonStyle1}>
+                          Add
+                        </Button>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
+      </>
+    )}
+    
 
