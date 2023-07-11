@@ -73,8 +73,8 @@ export default function DenseTable(){
     const [prevWeek, setprevWeek] = useState(null)
     
     const [id, setId] = useState(uid)//3
-    const[habitValue, setnewHabitValue] = useState(null)
-    const [typeValue, setnewTypeValue] = useState(null)
+    const[habitValue, setnewHabitValue] = useState(null)//used to be null 
+    const [typeValue, setnewTypeValue] = useState(null)//used to be null 
     //setting habits in use effect 
     const [habits, setHabits] = useState(null)
     const [habitData, setHabitData] = useState(null)
@@ -124,7 +124,18 @@ export default function DenseTable(){
     //const { currentUser } = useAuth();
     //const uid = currentUser ? currentUser.uid : null;
     console.log(uid);
+    
     //setId(uid)
+
+    // chrome.identity.getProfileUserInfo(function(info) {
+
+    //   let email = info.email
+    //   console.log(info)
+
+
+
+
+    // });
 
 
 
@@ -167,6 +178,13 @@ export default function DenseTable(){
         weekContents = {};
 
       }
+
+
+      console.log(habitValue)
+
+      if(habitValue && typeValue){
+
+        console.log(3)
     
       weekContents[habitValue] = {
         type: typeValue,
@@ -186,12 +204,23 @@ export default function DenseTable(){
       localStorage.setItem("" + id.toString() + "" + weekStart.toDateString(), JSON.stringify(weekContents));
     
       console.log(localStorage);
+
+      // setnewHabitValue(null);
+      // setnewTypeValue(null);
     
       changeHabits();
     
-      setnewHabitValue(null);
-      setnewTypeValue(null);
-    };
+      setnewHabitValue("");
+      //setnewTypeValue("");
+
+
+      console.log(habitValue)
+
+
+      console.log(typeValue)
+    }
+    
+  };
     
 
 
@@ -755,6 +784,27 @@ export default function DenseTable(){
     };
 
 
+    const handlePreviousRole = (event, habit) => {
+      const habitString = habit;
+      //const day = event.target.id;
+      const newHabitType = event.target.value;
+      // setHabitData((prevState) => {
+      //   const habitObj = { ...prevState[idx] };
+      //   habitObj.type = newHabitType;
+      //   const newState = [...prevState];
+      //   newState[idx] = habitObj;
+      //   return newState;
+      // });
+      const currentDate = new Date();
+      const curWeek = getStartOfWeek(currentDate);
+      const jsonContents = JSON.parse(localStorage.getItem("" + id.toString() + "" + curWeek.toDateString()));
+      jsonContents[habitString].type = newHabitType;
+      localStorage.setItem("" + id.toString() + "" + curWeek.toDateString(), JSON.stringify(jsonContents));
+      changeHabits();
+    };
+    
+
+
 
 
   
@@ -793,11 +843,11 @@ export default function DenseTable(){
 
     return (
       <>
-        {!id && (
+        {!uid && (
           <GooglePage />
         )}
         
-        {id && (
+        {uid && (
           <>
             <img src={Character_Cover1} alt="My Image" style={{ position: 'absolute', width: '90px', top: 0, left: 0 }} />
             <a href="https://www.coteriesolutions.com/time-bandit">
@@ -828,7 +878,25 @@ export default function DenseTable(){
                         {habits[index]}
                       </TableCell>
                       <TableCell align="right">
-                        {habit.type}
+                      {/* <input
+    type="text"
+    value={habit.type}
+    onChange={(e) => handlePreviousRole(e, habits[index])}
+  /> */}
+
+<Select
+                        name="type"
+                        onChange={(e) => handlePreviousRole(e, habits[index])}
+                        value = {habit.type}
+                      >
+                        <MenuItem value="">--Select a type--</MenuItem>
+                        <MenuItem value="work">Work</MenuItem>
+                        <MenuItem value="personal">Personal</MenuItem>
+                        <MenuItem value="hobby">Hobby</MenuItem>
+                      </Select>
+
+
+                       
                       </TableCell>
                       <TableCell align="right">
                         <input type="checkbox" id="monday" checked={habit.monday} onChange={(e) => handleInputChange1(e, habits[index], index)} />
@@ -849,7 +917,7 @@ export default function DenseTable(){
                         <input type="checkbox" id="saturday" checked={habit.saturday} onChange={(e) => handleInputChange1(e, habits[index], index)} />
                       </TableCell>
                       <TableCell align="right">
-                        <input type="checkbox" id="saturday" checked={habit.sunday} onChange={(e) => handleInputChange1(e, habits[index], index)} />
+                        <input type="checkbox" id="sunday" checked={habit.sunday} onChange={(e) => handleInputChange1(e, habits[index], index)} />
                       </TableCell>
                       <TableCell align="right">
                         {habit.date}
@@ -864,7 +932,7 @@ export default function DenseTable(){
                       <div style={{ display: 'flex' }}>
                         <TextField
                           name="habit"
-                          value={habitValue}
+                           value={habitValue}
                           onChange={(event) => setnewHabitValue(event.target.value)}
                           multiline
                           rows={4}

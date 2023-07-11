@@ -31,7 +31,7 @@ const GooglePage = () => {
       // Access the UID (User ID)
       const uid = result.user.uid;
       
-      //window.location.href = "http://localhost:3000/home"
+      window.location.href = '/home'
 
     })
     .catch((error) => {
@@ -46,7 +46,7 @@ const GooglePage = () => {
 
     const handleGoogleSignIn = () => {
       logInWithGoogle();
-      //window.location.href = "http://localhost:3000/home"
+      window.location.href = '/home'
     };
   
     return (
