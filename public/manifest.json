@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Time bandit",
+  "version": "1.0",
+  "description": "Habit Tracker",
+  
+  
+
+  "action": {
+  
+    "default_title": "TB- Habit Tracker",
+    "default_popup": "index.html"
+  },
+  "content_security_policy": "script-src 'self'; object-src 'self';"
+}
+
+
+
+  

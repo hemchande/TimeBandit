@@ -149,7 +149,7 @@ export default function DenseTable(){
 
 
     const handleAddHabit = (event) => {
-      console.log(habitData.length+1)
+      console.log(habitData)
       if (habitData.length + 1 > 7) {
         alert("Only 7 habits");
         return;
@@ -434,12 +434,16 @@ export default function DenseTable(){
         console.log(curWeek.toDateString())
         setcurWeek(curWeek.toDateString())
 
-        const weekContents = JSON.parse(localStorage.getItem("" + id.toString() + "" + curWeek.toDateString()))
+        const weekContents = JSON.parse(localStorage.getItem("" + id.toString() + "" + curWeek.toDateString())) || {}
 
-        const weekContents1 = JSON.parse(localStorage.getItem("" + id.toString() + "" + prevWeek.toDateString()))
+        //const weekContents1 = JSON.parse(localStorage.getItem("" + id.toString() + "" + prevWeek.toDateString()))
+
+        const weekContents1 = JSON.parse(localStorage.getItem(id.toString() + prevWeek.toDateString())) || {};
 
 
-        //console.log(weekContents1)
+
+        console.log(weekContents1)
+        console.log(weekContents)
 
 
         if(!weekContents && !weekContents1){
@@ -454,6 +458,8 @@ export default function DenseTable(){
         if(!weekContents && weekContents1){
 
           let prevkeys = Object.keys(weekContents1)
+
+          console.log(prevkeys)
 
           let prevValues = Object.values(weekContents1)
 
